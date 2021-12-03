@@ -1,4 +1,5 @@
-    <style>
+<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+<style>
             @font-face {
       font-family: "Montserrat";
       src: url("{{asset('font/Montserrat/Montserrat-SemiBold.ttf')}}");
