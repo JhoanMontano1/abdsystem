@@ -28,7 +28,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 // Route::get('/', 'HomeController@index');
-Route::get('/home', [HomeController::class, 'index']);
+Route::get('/', [HomeController::class, 'index']);
 Route::get('invoice_prov', [factura_proveedorController::class, 'generateInvoice'])->middleware('auth');
 Route::get('cancel_invoice_prov', [factura_proveedorController::class, 'cancelInvoice'])->middleware('auth');
 Route::get('cancel_invoice_client', [factura_clienteController::class, 'cancelInvoice'])->middleware('auth');
@@ -71,4 +71,4 @@ Route::group(['middleware'=>'auth'],function(){
 
 });
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
