@@ -79,9 +79,31 @@
 {{$factura->links()}}
 <script>
    let pages=$(".pagination li a");
-   for(let i=0;i<pages.length;i++){
-     pages[i].href=pages[i].href+"&"+"search="+"<?php echo $search; ?>";
+
+   <?php if(isset($search))
+   {
+    echo `
+    <script type=\"text/javascript\">
+    for(let i=0;i<pages.length;i++){
+
+        pages[i].href=pages[i].href+"&"+"search="+"<?php echo $search; ?>";
+      }
+    </script>
+`;
+   }else
+   {
+    echo `
+    <script type=\"text/javascript\">
+    for(let i=0;i<pages.length;i++){
+
+        pages[i].href=pages[i].href+"&"+"date_i="+"<?php echo $date_i; ?>"+"&"+"date_f="+"<?php echo $date_f; ?>";
+      }
+    </script>
+`;
+
    }
+    ?>
+
 
 </script>
 @include('componentes.footer')

@@ -216,7 +216,7 @@ return redirect()->route('factura_cliente.index');
             ->select('factura_cliente.*', 'cliente.nombres as cliente','forma_pago.tipo as forma_pago')
             ->WhereBetween('factura_cliente._fecha', [$date_i, $date_f])
             ->paginate(5);
-
+            return view('factura_cliente.search',compact('factura','date_i','date_f'));
         }
         elseif(isset($_GET['search'])){
             $value= $_GET['search'];
@@ -231,8 +231,9 @@ return redirect()->route('factura_cliente.index');
            ->orWhere('cliente.nombres','like','%'. $value.'%')
            ->orWhere('factura_cliente._fecha','like','%'.$value.'%')
             ->paginate(5);
+            return view('factura_cliente.search',compact('factura','search'));
         }
 
-        return view('factura_cliente.search',compact('factura','search'));
+       
     }
 }
