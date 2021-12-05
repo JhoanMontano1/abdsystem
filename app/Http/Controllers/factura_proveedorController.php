@@ -171,6 +171,7 @@ return redirect()->route('factura_proveedor.index');
             ->select('factura_proveedor.*', 'proveedor.nombres as proveedor','forma_pago.tipo as forma_pago')
            ->WhereBetween('factura_proveedor._fecha', [$date_i, $date_f])
             ->paginate(5);
+            return view('factura_proveedor.search',compact('factura','date_i','date_f'));
         }
         elseif(isset($_GET['search'])){
 
@@ -186,8 +187,7 @@ return redirect()->route('factura_proveedor.index');
            ->orWhere('proveedor.nombres','like','%'. $value.'%')
            // ->orWhere('factura_proveedor._fecha','like','%'.$value.'%')
             ->paginate(5);
+            return view('factura_proveedor.search',compact('factura','search'));
         }
-
-         return view('factura_proveedor.search',compact('factura','search'));
      }
 }

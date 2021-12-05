@@ -219,20 +219,19 @@ return redirect()->route('factura_cliente.index');
             return view('factura_cliente.search',compact('factura','date_i','date_f'));
         }
         elseif(isset($_GET['search'])){
-            $value= $_GET['search'];
-            $search=$value;
+            $search= $_GET['search'];
             $factura = DB::table('factura_cliente')
             ->join('cliente', 'factura_cliente.id_cliente', '=', 'cliente.id')
             ->join('forma_pago', 'factura_cliente.id_forma_pago', '=', 'forma_pago.id')
             ->select('factura_cliente.*', 'cliente.nombres as cliente','forma_pago.tipo as forma_pago')
            // ->WhereBetween('factura_cliente.fecha', [$date_i, $date_f])
-           ->where('forma_pago.tipo','like','%'.$value.'%')
-           ->orWhere('factura_cliente.id','like','%'.$value.'%')
-           ->orWhere('cliente.nombres','like','%'. $value.'%')
-           ->orWhere('factura_cliente._fecha','like','%'.$value.'%')
+           ->where('forma_pago.tipo','like','%'.$search.'%')
+           ->orWhere('factura_cliente.id','like','%'.$search.'%')
+           ->orWhere('cliente.nombres','like','%'. $search.'%')
+           ->orWhere('factura_cliente._fecha','like','%'.$search.'%')
             ->paginate(5);
             return view('factura_cliente.search',compact('factura','search'));
-        }
+        } 
 
        
     }

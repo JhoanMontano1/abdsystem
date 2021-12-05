@@ -78,10 +78,11 @@
 </div>
 {{$factura->links()}}
 <script>
-   let pages=$(".pagination li a");
-   for(let i=0;i<pages.length;i++){
-     pages[i].href=pages[i].href+"&"+"search="+"<?php echo $search; ?>";
-   }
+let pages = $(".pagination li a");
+    for (let i = 0; i < pages.length; i++) 
+    {
 
+        pages[i].href = pages[i].href + "&" +"<?php (isset($search)) ? (print "search=".$search) : (print "date_i=".$date_i."&date_f=".$date_f); ?>";
+    }
 </script>
 @include('componentes.footer')
