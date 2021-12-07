@@ -20,7 +20,7 @@ class factura_clienteController extends Controller
         ->join('forma_pago', 'factura_cliente.id_forma_pago', '=', 'forma_pago.id')
         ->join('cliente', 'factura_cliente.id_cliente', '=', 'cliente.id')
         ->select('factura_cliente.*', 'cliente.nombres as cliente','forma_pago.tipo as forma_pago')
-        ->paginate(10);
+        ->paginate(5);
        return view('factura_cliente.index',compact('factura'));
     }
 
