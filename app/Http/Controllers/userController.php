@@ -36,6 +36,7 @@ class userController extends Controller
                 $this->validate($request,$campos,$mensaje);
        
         $datos=request()->except('_token');
+        $datos["password"]=Hash::make($datos["password"]);
         User::insert($datos);
         return redirect('user')->with('mensaje',' El usuario se ha registrado correctamente.');
 
