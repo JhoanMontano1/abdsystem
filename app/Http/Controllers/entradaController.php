@@ -144,7 +144,7 @@ class entradaController extends Controller
                         $json[]=array(
                             'id'=>$dato['id'],
                             'nombre'=>$dato['descripcion'],
-                            'precio'=>$dato['precio_venta'],
+                            'precio'=>$dato['precio_compra'],
                             'stock'=>$dato['stock'],
                         ); 
                     }
