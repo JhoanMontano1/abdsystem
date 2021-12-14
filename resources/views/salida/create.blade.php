@@ -71,7 +71,7 @@
     <label for="type" class="col-md-4 col-form-label text-md-right">Buscar artículo</label>
 
     <div class="col-md-6">
-<input type="search" name="" value="" id="searchA" context="articulo">
+<input type="search" name="" value="" id="searchA" context="articulo_venta">
     </div>
 </div>
 

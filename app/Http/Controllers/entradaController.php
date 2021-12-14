@@ -138,7 +138,7 @@ class entradaController extends Controller
                 }
                 
                 break;
-                case 'articulo':
+                case 'articulo_compra':
                     $datos= articuloModel::where('descripcion','like','%'. $value.'%')->get()->toArray();
                     foreach($datos as $dato){
                         $json[]=array(
@@ -149,6 +149,18 @@ class entradaController extends Controller
                         ); 
                     }
                     break;
+
+                    case 'articulo_venta':
+                        $datos= articuloModel::where('descripcion','like','%'. $value.'%')->get()->toArray();
+                        foreach($datos as $dato){
+                            $json[]=array(
+                                'id'=>$dato['id'],
+                                'nombre'=>$dato['descripcion'],
+                                'precio'=>$dato['precio_venta'],
+                                'stock'=>$dato['stock'],
+                            ); 
+                        }
+                        break;
         }
 
 
