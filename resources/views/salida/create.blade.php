@@ -68,6 +68,18 @@
                     </div>
                 </div>
                 <div class="form-group row">
+                        <label for="type" class="col-md-4 col-form-label text-md-right">Iva</label>
+
+                        <div class="col-md-6">
+                            <select name="iva">
+                            <option value="0.00">0%</option>
+                        <option value="0.05">5%</option>
+                        <option value="0.10">10%</option>
+                        <option value="0.15">15%</option>
+                            </select>
+                        </div>
+                    </div>
+                <div class="form-group row">
                     <label for="type" class="col-md-4 col-form-label text-md-right">Buscar artículo</label>
 
                     <div class="col-md-6">
@@ -376,6 +388,7 @@
             if ($('#factura tr').length > 1) {
                 $('#btn-factura').prop('disabled', true);
                 let array = [];
+                let iva;
                 let id;
                 let cantidad;
                 let total;
@@ -395,6 +408,7 @@
                     id_forma_salida = $('select[name=id_forma_salida]').val();
                     id_forma_pago = $('select[name=id_forma_pago]').val();
                     id_cliente = $('select[name=id_cliente]').val();
+                    iva=$('select[name=iva]').val();
                     // fecha = $('input[name=fecha]').val();
 
                     _token = $('meta[name="csrf-token"]').attr('content');
@@ -428,6 +442,7 @@
                         id_forma_pago: id_forma_pago,
                         id_cliente: id_cliente,
                         // fecha: fecha,
+                        iva:iva,
                         total:parseFloat($('#_total').html()),
                         _token: _token
                     },

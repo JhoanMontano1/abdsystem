@@ -63,14 +63,31 @@
 
 
         <div class="container">
-
+<div>
+    <img src="{{asset('img/logoCentral.png')}}" width="200px" height="60px" alt="" srcset="">
+</div>
+<div>
+    David antonio picado flores.
+</div>
+<div style="font-weight:bold;">
+PROPIETARIO
+</div>
+<div>
+    Ruc: 001053890000P
+</div>
+<div>
+    Dir.:Managua km 8 carrtera norte DDFka recargo 10 cuadras al norte 1 1/2 cuadra al oeste, barrio camilo chamorro.
+</div>
+<div>
+    Cel.:88465479
+</div>
 <table id="factura">
     <thead>
         <tr><th>FACTURA</th></tr>
     </thead>
     <tbody>
         <tr>
-            <td>No.Factura: {{$array['id']}}</td>
+            <td style="color:red;">No: {{$array['id']}}</td>
         </tr>
         <tr>
         <td>Fecha: {{$array['fecha']}}</td>
@@ -113,27 +130,45 @@
                 <td>{{$detalle['total']}}C$</td>
             </tr>
         @endforeach
+
         <tr>
             <td></td>
             <td></td>
             <td></td>
-            <td>{{$array['total']}}C$</td>
+            <td>Desc: 0.0</td>
         </tr>
         <tr>
             <td></td>
             <td></td>
             <td></td>
-            <td>Desc: 0%</td>
+            <td>Iva: {{$array['iva']}}</td>
         </tr>
         <tr>
             <td></td>
             <td></td>
             <td></td>
-            <td>Iva: 15%</td>
+            <td>Subtotal:{{$array['total']}}C$</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>Total:{{($array['total']*$array['iva'])+$array['total']}}C$</td>
         </tr>
     </tbody>
 </table>
+
+<hr style="width:120px;">
+<div>Entregue conforme</div>
+<br>
+<div>DAVID PICADO</div>
+<div style="font-size:12px;">
+    <strong>NOTA:</strong> Garantia de 1 mes para celulares y accesorios dependiendo del producto. <br>
+    Y no se responde por golpe ni por mojarlo.
 </div>
+</div>
+
+
  @if (!isset($_GET['pdf']))
 <form action="" method="get" style="text-align:center;">
 <input type="hidden" name="pdf" value="true">

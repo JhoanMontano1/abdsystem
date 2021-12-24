@@ -42,6 +42,7 @@ class factura_clienteController extends Controller
             'id_cliente'=>$_POST['id_cliente'],
             'id_forma_pago'=>$_POST['id_forma_pago'],
             // 'cantidad'=>$_POST['cantidad'],
+            'iva'=>$_POST['iva'],
             'total'=>$_POST['total'],
         );
         DB::table('factura_cliente')->insert($factura);
@@ -159,6 +160,7 @@ class factura_clienteController extends Controller
             'cliente'=>$cliente[0]->{'nombres'},
             'hora'=>$hora[0]->{'hora'},
             'minuto'=>$hora[0]->{'minuto'},
+            'iva'=>$fact[0]->{'iva'},
             'total'=>$fact[0]->{'total'}
         );
         $array2=array();

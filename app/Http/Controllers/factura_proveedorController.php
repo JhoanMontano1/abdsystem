@@ -36,6 +36,7 @@ class factura_proveedorController extends Controller
             'id_proveedor'=>$_POST['id_proveedor'],
             'id_forma_pago'=>$_POST['id_forma_pago'],
             // 'cantidad'=>$_POST['cantidad'],
+            'iva'=>$_POST['iva'],
             'total'=>$_POST['total'],
         );
         DB::table('factura_proveedor')->insert($factura);
@@ -112,6 +113,7 @@ echo $id_factura;
             'proveedor'=>$proveedor[0]->{'nombres'},
             'hora'=>$hora[0]->{'hora'},
             'minuto'=>$hora[0]->{'minuto'},
+            'iva'=>$fact[0]->{'iva'},
             'total'=>$fact[0]->{'total'}
         );
         $array2=array();

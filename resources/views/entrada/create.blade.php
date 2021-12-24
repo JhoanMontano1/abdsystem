@@ -16,6 +16,8 @@
                         </div>
                     </div> -->
 
+
+
                     <div class="form-group row">
                         <label for="type" class="col-md-4 col-form-label text-md-right">Tipo de entrada</label>
 
@@ -71,6 +73,18 @@
 
                                 @endforeach
                                 @endif
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="type" class="col-md-4 col-form-label text-md-right">Iva</label>
+
+                        <div class="col-md-6">
+                            <select name="iva">
+                            <option value="0.00">0%</option>
+                        <option value="0.05">5%</option>
+                        <option value="0.10">10%</option>
+                        <option value="0.15">15%</option>
                             </select>
                         </div>
                     </div>
@@ -364,6 +378,7 @@
                     if ($('#factura tr').length > 1) {
                         $('#btn-factura').prop('disabled', true);
                         let array = [];
+                        let iva;
                         let id;
                         let cantidad;
                         let total;
@@ -381,6 +396,7 @@
                             total =parseFloat($(value[4]).html());
                             precio =parseFloat($(value[3]).html());
                             id_forma_entrada = $('select[name=id_forma_entrada]').val();
+                            iva=$('select[name=iva]').val();
                             id_forma_pago = $('select[name=id_forma_pago]').val();
                             id_proveedor = $('select[name=id_proveedor]').val();
                             // fecha = $('input[name=fecha]').val();
@@ -416,6 +432,7 @@
                                 id_proveedor: id_proveedor,
                                 // fecha: fecha,
                                 total: parseFloat($('#_total').html()),
+                                iva:iva,
                                 _token: _token
                             },
                             success: function(data) {
