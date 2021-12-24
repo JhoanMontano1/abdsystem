@@ -143,13 +143,13 @@ $(document).on("input", "input[name=search]", () => {
                     currentHtml +=
                         `
 <tr p-id='${datos.id}'>
-    <td>${datos.id}</td>
-    <td>${datos.descripcion}</td>
-    <td> ${datos.stock}</td>
-    <td> ${datos.precio_compra}</td>
-    <td> ${datos.precio_venta}</td>
-    <td> ${datos.categoria}</td>
-    <td> ${datos.proveedor}</td>
+    <td ${datos.stock<=0 ?'style=text-decoration:line-through;color:red;' :''}>${datos.id}</td>
+    <td ${datos.stock<=0 ?'style=text-decoration:line-through;color:red;' :''}>${datos.descripcion}</td>
+    <td ${datos.stock<=0 ?'style=text-decoration:line-through;color:red;' :''}> ${datos.stock}</td>
+    <td ${datos.stock<=0 ?'style=text-decoration:line-through;color:red;' :''}> ${datos.precio_compra}</td>
+    <td ${datos.stock<=0 ?'style=text-decoration:line-through;color:red;' :''}> ${datos.precio_venta}</td>
+    <td ${datos.stock<=0 ?'style=text-decoration:line-through;color:red;' :''}> ${datos.categoria}</td>
+    <td ${datos.stock<=0 ?'style=text-decoration:line-through;color:red;' :''}> ${datos.proveedor}</td>
 
     @if (Auth::user()->type==1)
     <td>
