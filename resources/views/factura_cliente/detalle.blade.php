@@ -109,15 +109,27 @@
             <tr>
                 <td>{{$detalle['cantidad']}}</td>
                 <td>{{$detalle['descripcion']}}</td>
-                <td>{{$detalle['precio']}}</td>
-                <td>{{$detalle['total']}}</td>
+                <td>{{$detalle['precio']}}C$</td>
+                <td>{{$detalle['total']}}C$</td>
             </tr>
         @endforeach
         <tr>
             <td></td>
             <td></td>
             <td></td>
-            <td>{{$array['total']}}</td>
+            <td>{{$array['total']}}C$</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>Desc: 0%</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>Iva: 15%</td>
         </tr>
     </tbody>
 </table>

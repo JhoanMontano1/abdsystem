@@ -108,11 +108,19 @@ class categoriaController extends Controller
 
     }
     public function search(){
+        if(isset($_GET['search']))
+        {
 $value=$_GET['search'];
 $search=$value;
        $categoria=DB::table('categoria')->where('nombre','like','%'. $value.'%')
        ->orWhere('id','like','%'. $value.'%')
        ->paginate(5);
        return view('categoria.search',compact('categoria','search'));
+
+        }
+    else{ $search=DB::select("select nombre from categoria");
+    return json_encode($search);
+    }
+
     }
 }

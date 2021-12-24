@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="{{asset('css/jquery-ui.css')}}">
+    <script  src="{{asset('js/jquery-ui.js')}}"></script>
 <h1>{{$e}} artículo</h1>
 @if(count($errors)>0)
 <div class="alert alert-danger" role="alert">
@@ -12,7 +14,7 @@
 @endif
 <div class="form-group">
 <label for="descripcion">Descripción</label>
-<input type="varchar" class="form-control" name="descripcion" value="{{isset($articulo->descripcion)?$articulo->descripcion:old('descripcion')}}">
+<input type="varchar" class="form-control" id="descripcion" name="descripcion" value="{{isset($articulo->descripcion)?$articulo->descripcion:old('descripcion')}}">
 <br>
 
 </div>
@@ -76,3 +78,29 @@
 <a  class="btn btn-primary"href="{{url('articulo/')}}">Volver</a>
 <br> 
 @include('componentes.footer')
+<script>
+	var categories=[];
+	
+	$(document).ready(()=>{
+		$.ajax({
+  type: "GET",
+  url: "{{url('/searchCat')}}",
+  data: {
+
+  },
+  success: function(data) {
+	data=JSON.parse(data);
+
+data.forEach(datos=>{
+	categories.push(datos.nombre);
+});
+	$("#descripcion").autocomplete({
+		source:categories
+	});
+  }
+});
+		
+
+	});
+
+</script>

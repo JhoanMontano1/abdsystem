@@ -15,8 +15,6 @@ class Salida extends Migration
     {
         Schema::create('salida', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('id_articulo')->unsigned();
-            $table->foreign('id_articulo')->references('id')->on('articulo');
             $table->unsignedBigInteger('id_forma_salida');
             $table->foreign('id_forma_salida')->references('id')->on('forma_salida');
             $table->unsignedBigInteger('id_cliente');

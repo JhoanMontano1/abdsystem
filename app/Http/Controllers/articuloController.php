@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\DB;
 use App\Models\articuloModel;
 use App\Models\categoriaModel;
@@ -139,7 +140,22 @@ return redirect('articulo')->with('mensaje',' El artículo se ha eliminado exito
        
     }
     public function search(){
-       $value= $_GET["search"];
+        if(isset($_GET["search"])){
+
+            $value= $_GET["search"];
+            $search=$value;
+            $articulo = DB::table('articulo')
+            ->join('proveedor', 'articulo.id_proveedor', '=', 'proveedor.id')
+            ->join('categoria', 'articulo.id_categoria', '=', 'categoria.id')
+            ->select('articulo.*', 'proveedor.nombres as proveedor','categoria.nombre as categoria')
+            ->where('articulo.descripcion','like','%'. $value.'%')
+            ->orWhere('articulo.id','like','%'. $value.'%')
+            ->orWhere('articulo.stock','like','%'. $value.'%')
+            ->paginate(5);
+            return view('articulo.search',compact('articulo','search'));
+        }
+        else if(isset($_GET["value"]))
+       $value= $_GET["value"];
        $search=$value;
        $articulo = DB::table('articulo')
        ->join('proveedor', 'articulo.id_proveedor', '=', 'proveedor.id')
@@ -149,6 +165,12 @@ return redirect('articulo')->with('mensaje',' El artículo se ha eliminado exito
        ->orWhere('articulo.id','like','%'. $value.'%')
        ->orWhere('articulo.stock','like','%'. $value.'%')
        ->paginate(5);
-       return view('articulo.search',compact('articulo','search'));
+       $data=json_encode($articulo);
+       $res = array(
+        'data' => $data,
+        'links' => $articulo->links()->render(),
+        'search'=>$value
+       );
+       return Response::json($res);
     }
 }

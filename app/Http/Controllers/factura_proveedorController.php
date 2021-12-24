@@ -35,7 +35,6 @@ class factura_proveedorController extends Controller
             // 'id_articulo'=>$_POST['id_articulo'],
             'id_proveedor'=>$_POST['id_proveedor'],
             'id_forma_pago'=>$_POST['id_forma_pago'],
-           'fecha'=>$_POST['fecha'],
             // 'cantidad'=>$_POST['cantidad'],
             'total'=>$_POST['total'],
         );
@@ -44,6 +43,7 @@ class factura_proveedorController extends Controller
         $id_factura=$id[0]->{'max(id)'};
 
         $array=$_POST['detalle'];
+        $cantidad_total=0;
 foreach($array as $detalles){
 $f_detalle=array(
     'id_factura'=>$id_factura,
@@ -51,6 +51,7 @@ $f_detalle=array(
     'cantidad'=>$detalles['cantidad'],
     'precio'=>$detalles['precio'],
     'total'=>$detalles['total']);
+    $cantidad_total+=$detalles['cantidad'];
     DB::table('detalle_factura_proveedor')->insert($f_detalle);
     DB::update('update articulo set stock = stock + ? where id = ?', [$detalles["cantidad"],$detalles["id_articulo"]]);
 }
@@ -60,13 +61,12 @@ $cantidad=$array_entrada['cantidad'];
 $id_articulo=$array_entrada['id_articulo'];
 
 $entrada=array(
-    'id_articulo'=>$array_entrada['id_articulo'],
+    // 'id_articulo'=>$array_entrada['id_articulo'],
     'id_forma_entrada'=>$array_entrada['id_forma_entrada'],
     'id_proveedor'=>$array_entrada['id_proveedor'],
     'id_factura'=>$id_factura,
-    'fecha'=>$array_entrada['fecha'],
-    'cantidad'=>$array_entrada['cantidad'],
-    'total'=>$array_entrada['total']);
+    'cantidad'=>$cantidad_total,
+    'total'=>$_POST['total']);
 
 DB::table('entrada')->insert($entrada);
 

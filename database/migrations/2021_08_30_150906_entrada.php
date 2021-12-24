@@ -15,8 +15,6 @@ class Entrada extends Migration
     {
         Schema::create('entrada', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('id_articulo')->unsigned();
-            $table->foreign('id_articulo')->references('id')->on('articulo');
             $table->unsignedBigInteger('id_forma_entrada')->unsigned();
             $table->foreign('id_forma_entrada')->references('id')->on('forma_entrada');
             $table->unsignedBigInteger('id_proveedor')->unsigned();

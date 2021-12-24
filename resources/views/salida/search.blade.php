@@ -35,7 +35,7 @@
 			<td>{{ $salidas->cliente}}</td>
 			<td>{{ $salidas->fecha}}</td>
 			<td>{{ $salidas->cantidad}}</td>
-			<td>{{ $salidas->total}}</td>
+			<td>{{ $salidas->total}}C$</td>
 			<!-- <td>
 				<a href="{{url('/salida/'.$salidas->id.'/edit')}}"class="btn btn-warning">Editar </a>
 			<form action="{{ url('/salida/'.$salidas->id) }}" class="d-inline" method="post">

@@ -6,12 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <title>ABD SYSTEM</title>
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <script src="js/bootstrap.bundle.min.js"></script>
+    <link href="{{asset('css/bootstrap.min.css')}}" rel="stylesheet">
+    <script src="{{asset('js/bootstrap.bundle.min.js')}}"></script>
     <script src="{{asset('js/jquery.js')}}"></script>
+    <link rel="stylesheet" href="{{asset('css/jquery-ui.css')}}">
+    <script  src="{{asset('js/jquery-ui.js')}}"></script>
     <script src="{{asset('js/moment.js')}}"></script>
     <link rel="stylesheet" href="{{asset('css/components.css')}}">  
-    
+
     <link style="background-color:blue;" rel="shortcut icon" href="{{ asset('img/forma_pago.svg') }}">
     <!-- <button onclick="alert(window.innerWidth+','+window.innerHeight)">RESOLUCION</button> -->
 </head>

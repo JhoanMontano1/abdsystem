@@ -60,7 +60,7 @@
                     <td>{{ $facturas->proveedor}}</td>
                     <td>{{ $facturas->fecha}}</td>
                     <td>{{ $facturas->forma_pago}}</td>
-                    <td>{{ $facturas->total}}</td>
+                    <td>{{ $facturas->total}}C$</td>
                     @if (Auth::user()->type==1)
                     <td>
                         <div class="d-flex">
