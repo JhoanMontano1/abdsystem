@@ -64,9 +64,9 @@
                     <td {{$articulos->stock<=0 ?'style=text-decoration:line-through;color:red;' :"" }}>
                         {{ $articulos->stock}}</td>
                     <td {{$articulos->stock<=0 ?'style=text-decoration:line-through;color:red;' :"" }}>
-                        {{ $articulos->precio_compra}}C$</td>
+                    C${{ $articulos->precio_compra}}</td>
                     <td {{$articulos->stock<=0 ?'style=text-decoration:line-through;color:red;' :"" }}>
-                        {{ $articulos->precio_venta}}C$</td>
+                    C${{ $articulos->precio_venta}}</td>
                     <td {{$articulos->stock<=0 ?'style=text-decoration:line-through;color:red;' :"" }}>
                         {{ $articulos->categoria}}</td>
                     <td {{$articulos->stock<=0 ?'style=text-decoration:line-through;color:red;' :"" }}>
@@ -146,8 +146,8 @@ $(document).on("input", "input[name=search]", () => {
     <td ${datos.stock<=0 ?'style=text-decoration:line-through;color:red;' :''}>${datos.id}</td>
     <td ${datos.stock<=0 ?'style=text-decoration:line-through;color:red;' :''}>${datos.descripcion}</td>
     <td ${datos.stock<=0 ?'style=text-decoration:line-through;color:red;' :''}> ${datos.stock}</td>
-    <td ${datos.stock<=0 ?'style=text-decoration:line-through;color:red;' :''}> ${datos.precio_compra}</td>
-    <td ${datos.stock<=0 ?'style=text-decoration:line-through;color:red;' :''}> ${datos.precio_venta}</td>
+    <td ${datos.stock<=0 ?'style=text-decoration:line-through;color:red;' :''}> C$${datos.precio_compra}</td>
+    <td ${datos.stock<=0 ?'style=text-decoration:line-through;color:red;' :''}> C$${datos.precio_venta}</td>
     <td ${datos.stock<=0 ?'style=text-decoration:line-through;color:red;' :''}> ${datos.categoria}</td>
     <td ${datos.stock<=0 ?'style=text-decoration:line-through;color:red;' :''}> ${datos.proveedor}</td>
 

@@ -192,7 +192,7 @@
 
     <td>${datos.nombre}</td>
     <td> <input type="number" value="1" class="cantidad" pattern="^[1-9]" title='Only Number' min="1" step="1" style="width:40%;"/> </td>
-    <td> <input disabled style="width:40%;" value="${datos.precio}C$" type="text"/> </td>
+    <td> <input disabled style="width:40%;" value="C$${datos.precio}" type="text"/> </td>
     <td>${datos.stock} </td>
     <td> <button class='btn btn-sm btn-primary itemResult'>+</button></td>
     </tr>
@@ -285,7 +285,7 @@
 <td>${cantidad}</td>
 <td>${nombre}</td>
 <td>${precio}C$</td>
-<td>${parseFloat(cantidad)*parseFloat(precio)}C$</td>
+<td>C$${parseFloat(cantidad)*parseFloat(precio.substring(2,precio.length))}</td>
 <td> <button class='btn btn-sm btn-danger delete'>Eliminar</button></td>
 </tr>`;
 
@@ -323,7 +323,7 @@
                 console.log('cantidad actualizada: ' + $(cantidad).html());
                 console.log('precio: ' + $(precio).html());
 
-                $(total).html(parseInt($(cantidad).html()) * parseInt($(precio).html())+"C$");
+                $(total).html("C$"+parseInt($(cantidad).html()) * parseFloat($(precio).html().substring(2,$(precio).html().length)));
             } else {
                 alert('La cantidad ingresada super al stock del productos')
             }
@@ -372,8 +372,8 @@
             if (datos.length > 0) {
                 for (let i = 0; i < datos.length; i++) {
                     let temp = $(datos[i]).children();
-                    total += parseInt($(temp[4]).html());
-                    $('#_total').html(total+"C$");
+                    total += parseInt($(temp[4]).html().substring(2,$(temp[4]).html().length));
+                    $('#_total').html("C$"+total);
                 }
             } else {
                 $('#_total').html('-');
@@ -403,8 +403,8 @@
                     id = $(factura[i]).attr('p-id');
                     let value = $(factura[i]).children();
                     cantidad = $(value[1]).html();
-                    total = parseFloat($(value[4]).html());
-                    precio =parseFloat($(value[3]).html());
+                    total =parseFloat($(value[4]).html().substring(2,$(value[4]).html().length));
+                    precio =parseFloat($(value[3]).html().substring(2,$(value[3]).html().length));
                     id_forma_salida = $('select[name=id_forma_salida]').val();
                     id_forma_pago = $('select[name=id_forma_pago]').val();
                     id_cliente = $('select[name=id_cliente]').val();
@@ -443,7 +443,7 @@
                         id_cliente: id_cliente,
                         // fecha: fecha,
                         iva:iva,
-                        total:parseFloat($('#_total').html()),
+                        total: parseFloat($('#_total').html().substring(2,$('#_total').html().length)),
                         _token: _token
                     },
                     success: function(data) {

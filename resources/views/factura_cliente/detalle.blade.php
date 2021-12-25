@@ -54,6 +54,7 @@
         font-family: Arial, serif;
         color: black;
         padding-top: 0.5%;
+        border:1px solid #3390FF;
     }
     </style>
 </head>
@@ -67,7 +68,7 @@
     <img src="{{asset('img/logoCentral.png')}}" width="200px" height="60px" alt="" srcset="">
 </div>
 <div>
-    David antonio picado flores.
+    David Antonio Picado Flores.
 </div>
 <div style="font-weight:bold;">
 PROPIETARIO
@@ -76,7 +77,7 @@ PROPIETARIO
     Ruc: 001053890000P
 </div>
 <div>
-    Dir.:Managua km 8 carrtera norte DDFka recargo 10 cuadras al norte 1 1/2 cuadra al oeste, barrio camilo chamorro.
+    Dir.:Managua Km 8 carretera Norte DDF La rocargo 10 cuadras al norte y 1 1/2 cuadra al oeste.Barrio Camilo Chamorro.
 </div>
 <div>
     Cel.:88465479
@@ -126,34 +127,33 @@ PROPIETARIO
             <tr>
                 <td>{{$detalle['cantidad']}}</td>
                 <td>{{$detalle['descripcion']}}</td>
-                <td>{{$detalle['precio']}}C$</td>
-                <td>{{$detalle['total']}}C$</td>
+                <td>C${{$detalle['precio']}}</td>
+                <td>C${{$detalle['total']}}</td>
             </tr>
         @endforeach
-
         <tr>
             <td></td>
             <td></td>
             <td></td>
-            <td>Desc: 0.0</td>
+            <td>Subtotal: C${{$array['total']}}</td>
         </tr>
         <tr>
             <td></td>
             <td></td>
             <td></td>
-            <td>Iva: {{$array['iva']}}</td>
+            <td>Iva: C${{($array['total']*$array['iva'])}}</td>
         </tr>
         <tr>
             <td></td>
             <td></td>
             <td></td>
-            <td>Subtotal:{{$array['total']}}C$</td>
+            <td>Desc: C$0</td>
         </tr>
         <tr>
             <td></td>
             <td></td>
             <td></td>
-            <td>Total:{{($array['total']*$array['iva'])+$array['total']}}C$</td>
+            <td>Total: C${{($array['total']*$array['iva'])+$array['total']}}</td>
         </tr>
     </tbody>
 </table>
