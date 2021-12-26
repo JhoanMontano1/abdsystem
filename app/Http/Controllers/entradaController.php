@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\DB;
 use App\Models\entradaModel;
 use App\Models\categoriaModel;
@@ -181,6 +182,8 @@ class entradaController extends Controller
 
     }
     public function searchEnt(){
+        if(isset($_GET["search"]))
+        {
         $value=$_GET['search'];
         $search=$value;
         $entrada = DB::table('entrada')
@@ -194,5 +197,31 @@ class entradaController extends Controller
         ->orWhere('forma_entrada.tipo','like','%'. $value.'%')
         ->paginate(5);
             return view('entrada.search',compact('entrada','search'));
+
+        }
+        else if(isset($_GET["value"])){
+       
+            $value= $_GET["value"];
+            $search=$value;
+            $entrada = DB::table('entrada')
+            ->join('forma_entrada', 'entrada.id_forma_entrada', '=', 'forma_entrada.id')
+            ->join('proveedor', 'entrada.id_proveedor', '=', 'proveedor.id')
+            ->select('entrada.*', 'proveedor.nombres as proveedor','forma_entrada.tipo as forma_entrada')
+            ->where('entrada.cantidad','like','%'. $value.'%')
+            ->orWhere('entrada.id','like','%'. $value.'%')
+            ->orWhere('entrada.total','like','%'. $value.'%')
+            ->orWhere('proveedor.nombres','like','%'. $value.'%')
+            ->orWhere('forma_entrada.tipo','like','%'. $value.'%')
+            ->paginate(5);
+            $data=json_encode($entrada);
+            $res = array(
+             'data' => $data,
+             'links' => $entrada->links()->render(),
+             'search'=>$value
+            );
+            return Response::json($res);
+        }
+        
+
     }
 }

@@ -34,7 +34,7 @@
 			<td>{{ $entradas->proveedor}}</td>
 			<td>{{ $entradas->fecha}}</td>
 			<td>{{ $entradas->cantidad}}</td>
-			<td>{{ $entradas->total}}C$</td>
+			<td>C${{ $entradas->total}}</td>
 			<!-- <td>
 				<a href="{{url('/entrada/'.$entradas->id.'/edit')}}"class="btn btn-warning">Editar </a>
 				

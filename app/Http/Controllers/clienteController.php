@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\DB;
 use App\Models\clienteModel;
 class clienteController extends Controller
@@ -113,11 +114,30 @@ class clienteController extends Controller
 
     }
     public function search(){
+        if(isset($_GET["search"])){
         $value=$_GET['search'];
         $search=$value;
         $cliente=DB::table('cliente')->where('nombres','like','%'. $value.'%')
         ->orWhere('id','like','%'. $value.'%')
         ->paginate(5);
         return view('cliente.search',compact('cliente','search'));
+
+        }
+        else if(isset($_GET["value"]))
+        {
+            $value= $_GET["value"];
+            $search=$value;
+            $cliente=DB::table('cliente')->where('nombres','like','%'. $value.'%')
+            ->orWhere('id','like','%'. $value.'%')
+            ->paginate(5);
+            $data=json_encode($cliente);
+            $res = array(
+             'data' => $data,
+             'links' => $cliente->links()->render(),
+             'search'=>$value
+            );
+            return Response::json($res);
+        }
+
     }
 }

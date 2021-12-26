@@ -30,14 +30,13 @@
        <div class="input-group">
   <input type="search" class="form-control rounded" name="search" required placeholder="Buscar" aria-label="Search"
   aria-describedby="search-addon" />
-  <button type="submit" class="btn btn-outline-primary">Buscar</button>
 </div>     
     </form>
 
     <br />
     <br />
     <div class="table-responsive">
-        <table class="table">
+        <table class="table" id="table">
             <thead class="">
                 <tr>
                     <th>#</th>
@@ -81,5 +80,94 @@
     </div>
 
 </div>
-{{$forma_entrada->links()}}
+<div class="pag">
+{{$forma_entrada->links()}}    
+</div>
+
 @include('componentes.footer')
+<script>
+var table = $('#table Tbody').html();
+var pag = $('nav:has(ul.pagination)');
+var search = "";
+var currentHtml = "";
+$(document).on("input", "input[name=search]", () => {
+    let value = $("input[name=search]").val();
+    if (value !== "") {
+        $.ajax({
+            url: "{{url('searchForEnt')}}",
+            type: "get",
+            cache: false,
+            data: {
+                value: value
+            },
+            success: function(data) {
+                console.log(data);
+                console.log(data.links);
+
+                if ($('nav:has(ul.pagination)').length) {
+                    $('nav:has(ul.pagination)').replaceWith(data.links);
+                } else {
+                    $(".pag").append(data.links);
+                }
+
+
+                let datos = JSON.parse(data.data);
+                search = data.search;
+                datos = datos.data;
+
+                datos.forEach(datos => {
+                    currentHtml +=
+                        `
+<tr p-id='${datos.id}'>
+    <td >${datos.id}</td>
+    <td >${datos.tipo}</td>
+    
+    @if (Auth::user()->type==1)
+    <td>
+        <div class="d-flex">
+            <button class="btn btn-warning btn-sm mb-1">
+                <a href="{{url('/forma_entrada/')}}/${datos.id}/edit">
+                    <img class="icon" src="{{asset('img/nuevoEditar.svg')}}" alt="" srcset="">
+                </a>
+            </button>
+            <p></p>
+            <form action="{{ url('/forma_entrada/') }}/${datos.id}" method="post">
+                @csrf
+                {{method_field('DELETE')}}
+                <button type="submit" onclick="return confirm('Seguro:¿Qué quieres eliminar esta forma de entrada?')"
+                    class="btn btn-danger btn-sm">
+                    <img class="icon" src="{{asset('img/nuevoEliminar.svg')}}" alt="" srcset="">
+                </button>
+
+            </form>
+        </div>
+
+    </td>
+    @endif
+</tr>
+`;
+                });
+                $('#table Tbody').html(currentHtml);
+                currentHtml = "";
+                if (search != "") {
+                    let pages = $(".pagination li a");
+                    for (let i = 0; i < pages.length; i++) {
+                        pages[i].href = pages[i].href + "&" + "search=" + search;
+                    }
+
+                }
+
+            }
+        });
+    } else {
+
+        $('#table Tbody').html(table);
+        if ($('nav:has(ul.pagination)').length) {
+            $('nav:has(ul.pagination)').replaceWith(pag);
+        } else {
+            $(".pag").append(pag);
+        }
+    }
+
+});
+</script>

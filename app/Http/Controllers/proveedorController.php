@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\DB;
 use App\Models\proveedorModel;
 class proveedorController extends Controller
@@ -115,11 +116,31 @@ class proveedorController extends Controller
 
     }
     public function search(){
+        if(isset($_GET["search"])){
         $value=$_GET['search'];
         $search=$value;
         $proveedor=DB::table('proveedor')->where('nombres','like','%'. $value.'%')
         ->orWhere('id','like','%'. $value.'%')
         ->paginate(5);
         return view('proveedor.search',compact('proveedor','search'));
+
+        }
+        else if(isset($_GET["value"]))
+        {
+            $value= $_GET["value"];
+            $search=$value;
+            $proveedor=DB::table('proveedor')->where('nombres','like','%'. $value.'%')
+            ->orWhere('id','like','%'. $value.'%')
+            ->paginate(5);
+            $data=json_encode($proveedor);
+            $res = array(
+             'data' => $data,
+             'links' => $proveedor->links()->render(),
+             'search'=>$value
+            );
+            return Response::json($res);
+        }
+        
+
     }
 }

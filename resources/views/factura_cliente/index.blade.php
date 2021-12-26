@@ -23,25 +23,21 @@
         <div class="input-group">
             <input type="search" class="form-control rounded" name="search" required placeholder="Buscar"
                 aria-label="Search" aria-describedby="search-addon" />
-            <button type="submit" class="btn btn-outline-primary">Buscar</button>
         </div>
     </form>
     <br>
-    <form action="{{url('/searchFacSal')}}" method="get">
-        <div class="form-group">
-            <input required name="date_i" class="form-control" type="date" id="">
-            <input required name="date_f" class="form-control" type="date" id="">
-        </div>
-        <div class="text-center">
-            <button type="submit" class="btn btn-primary">
-                Buscar entre fechas
-            </button>
-    </form>
+    <input required name="date_i" class="form-control" type="date" id="">
+    <input required name="date_f" class="form-control" type="date" id="">
+</div>
+<div class="text-center">
+    <button onclick="searchByDate()" class="btn btn-primary">
+        Buscar entre fechas
+    </button>
 </div>
 <br />
 <br />
 <div class="table-responsive">
-    <table class="table">
+    <table class="table" id="table">
         <thead class="">
             <tr>
                 <th>#</th>
@@ -103,12 +99,217 @@
     </table>
 
 </div>
-
+<div class="pag">
+    {{$factura->links()}}
 </div>
-{{$factura->links()}}
+</div>
+
+@include('componentes.footer')
 <script>
 $('#form-anular').submit(() => {
     $('#btn-anular').prop('disabled', true);
 });
+
+var table = $('#table Tbody').html();
+var pag = $('nav:has(ul.pagination)');
+var search = "";
+var date_i = "";
+var date_f = "";
+var currentHtml = "";
+$('input[name=date_i]').val(moment().format('YYYY-MM-DD'));
+$('input[name=date_f]').val(moment().format('YYYY-MM-DD'));
+
+function searchByDate() {
+    let date_i = $("input[name=date_i]").val();
+    let date_f = $("input[name=date_f]").val();
+    let type = 1;
+    $.ajax({
+        url: "{{url('searchFacSal')}}",
+        type: "get",
+        cache: false,
+        data: {
+            date_i: date_i,
+            date_f: date_f,
+            type: type
+        },
+        success: function(data) {
+            console.log(data);
+            console.log(data.links);
+
+            if ($('nav:has(ul.pagination)').length) {
+                $('nav:has(ul.pagination)').replaceWith(data.links);
+            } else {
+                $(".pag").append(data.links);
+            }
+
+
+            let datos = JSON.parse(data.data);
+            date_i = data.date_i;
+            date_f = data.date_f;
+            datos = datos.data;
+
+            datos.forEach(datos => {
+                currentHtml +=
+                    `
+<tr p-id='${datos.id}'>
+    <td >${datos.id}</td>
+    <td >${datos.cliente}</td>
+    <td > ${datos.fecha}</td>
+    <td > ${datos.forma_pago}</td>
+    <td > C$${datos.total}</td>
+
+    @if (Auth::user()->type==1)
+                    <td>
+                        <div class="d-flex">
+                            <form id="form-anular" action="{{url('/cancel_invoice_client')}}" method="get">
+                                <input type="hidden" name="id" value="${datos.id}">
+                                <button onclick="return confirm('Seguro,¿Qué quieres anular?')" id="btn-anular"
+                                ${datos.anulado===1 ?'disabled' :''} class="btn btn-secondary btn-sm mb-1"
+                                    type="submit" value="${datos.anulado===1 ?'Anulado' :'Anular'}">
+                                    <img class="icon" src="{{asset('img/anular.svg')}}" alt="" srcset="">
+                                </button>
+                            </form>
+                            <p></p>
+                            <form action="{{url('/invoice_client')}}" method="get">
+                                <input type="hidden" name="id" value="${datos.id}">
+                                <button class="btn btn-primary btn-sm mb-1" type="submit">
+                                    <img class="icon" src="{{asset('img/verBlanco.svg')}}" alt="" srcset="">
+                                </button>
+                            </form>
+                            <p></p>
+                            @if (Auth::user()->type==1)
+                            ${datos.anulado===1 ?`
+                                <form action="{{ url('/factura_cliente/') }}/${datos.id}" class="d-inline"
+                                method="post">
+                                @csrf
+                                {{method_field('DELETE')}}
+                                <button type="submit"
+                                    onclick="return confirm('Seguro,¿Qué quieres eliminar esta factura de cliente?')"
+                                    class="btn btn-danger btn-sm">
+                                    <img class="icon" src="{{asset('img/nuevoEliminar.svg')}}" alt="" srcset="">
+                                </button>
+                            </form>` :''}
+
+                        </div>
+
+                        @endif
+                    </td>
+                    @endif
+</tr>
+`;
+            });
+            $('#table Tbody').html(currentHtml);
+            currentHtml = "";
+            let pages = $(".pagination li a");
+            for (let i = 0; i < pages.length; i++) {
+
+                pages[i].href = pages[i].href + "&" + "date_i=" + date_i + "&date_f=" + date_f;
+            }
+
+        }
+    });
+}
+
+
+
+$(document).on("input", "input[name=search]", () => {
+    let value = $("input[name=search]").val();
+    let type = 0;
+    if (value !== "") {
+        $.ajax({
+            url: "{{url('searchFacSal')}}",
+            type: "get",
+            cache: false,
+            data: {
+                search: value,
+                type: type
+            },
+            success: function(data) {
+                console.log(data);
+                console.log(data.links);
+
+                if ($('nav:has(ul.pagination)').length) {
+                    $('nav:has(ul.pagination)').replaceWith(data.links);
+                } else {
+                    $(".pag").append(data.links);
+                }
+
+
+                let datos = JSON.parse(data.data);
+                search = data.search;
+                datos = datos.data;
+
+                datos.forEach(datos => {
+                    currentHtml +=
+                        `
+<tr p-id='${datos.id}'>
+<td >${datos.id}</td>
+    <td >${datos.cliente}</td>
+    <td > ${datos.fecha}</td>
+    <td > ${datos.forma_pago}</td>
+    <td > C$${datos.total}</td>
+    
+    @if (Auth::user()->type==1)
+                    <td>
+                        <div class="d-flex">
+                            <form id="form-anular" action="{{url('/cancel_invoice_client')}}" method="get">
+                                <input type="hidden" name="id" value="${datos.id}">
+                                <button onclick="return confirm('Seguro,¿Qué quieres anular?')" id="btn-anular"
+                                ${datos.anulado===1 ?'disabled' :''} class="btn btn-secondary btn-sm mb-1"
+                                    type="submit" value="${datos.anulado===1 ?'Anulado' :'Anular'}">
+                                    <img class="icon" src="{{asset('img/anular.svg')}}" alt="" srcset="">
+                                </button>
+                            </form>
+                            <p></p>
+                            <form action="{{url('/invoice_client')}}" method="get">
+                                <input type="hidden" name="id" value="${datos.id}">
+                                <button class="btn btn-primary btn-sm mb-1" type="submit">
+                                    <img class="icon" src="{{asset('img/verBlanco.svg')}}" alt="" srcset="">
+                                </button>
+                            </form>
+                            <p></p>
+                            @if (Auth::user()->type==1)
+                            ${datos.anulado===1 ?`
+                                <form action="{{ url('/factura_cliente/') }}/${datos.id}" class="d-inline"
+                                method="post">
+                                @csrf
+                                {{method_field('DELETE')}}
+                                <button type="submit"
+                                    onclick="return confirm('Seguro,¿Qué quieres eliminar esta factura de cliente?')"
+                                    class="btn btn-danger btn-sm">
+                                    <img class="icon" src="{{asset('img/nuevoEliminar.svg')}}" alt="" srcset="">
+                                </button>
+                            </form>` :''}
+
+                        </div>
+
+                        @endif
+                    </td>
+                    @endif
+</tr>
+`;
+                });
+                $('#table Tbody').html(currentHtml);
+                currentHtml = "";
+                if (search != "") {
+                    let pages = $(".pagination li a");
+                    for (let i = 0; i < pages.length; i++) {
+                        pages[i].href = pages[i].href + "&" + "search=" + search;
+                    }
+
+                }
+
+            }
+        });
+    } else {
+
+        $('#table Tbody').html(table);
+        if ($('nav:has(ul.pagination)').length) {
+            $('nav:has(ul.pagination)').replaceWith(pag);
+        } else {
+            $(".pag").append(pag);
+        }
+    }
+
+});
 </script>
-@include('componentes.footer')

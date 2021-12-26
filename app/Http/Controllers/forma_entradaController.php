@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\DB;
 use App\Models\forma_entradaModel;
 class forma_entradaController extends Controller
@@ -103,12 +104,32 @@ class forma_entradaController extends Controller
 
     }
     public function search(){
+        if(isset($_GET["search"])){
 $value=$_GET['search'];
 $search=$value;
 $forma_entrada=forma_entradaModel::where('tipo','like','%'.$value.'%')
 ->orWhere('id','like','%'.$value.'%')
 ->paginate(5);
 return view('forma_entrada.search',compact('forma_entrada','search'));
+
+        }
+        else if(isset($_GET["value"]))
+        {
+            $value= $_GET["value"];
+            $search=$value;
+            $forma_entrada=forma_entradaModel::where('tipo','like','%'.$value.'%')
+            ->orWhere('id','like','%'.$value.'%')
+            ->paginate(5);
+            $data=json_encode($forma_entrada);
+            $res = array(
+             'data' => $data,
+             'links' => $forma_entrada->links()->render(),
+             'search'=>$value
+            );
+            return Response::json($res);
+        }
+        
+
 
     }
 }

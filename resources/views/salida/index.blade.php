@@ -24,14 +24,13 @@
        <div class="input-group">
   <input type="search" class="form-control rounded" name="search" required placeholder="Buscar" aria-label="Search"
   aria-describedby="search-addon" />
-  <button type="submit" class="btn btn-outline-primary">Buscar</button>
 </div>     
     </form>
 
 <br/>
 <br/>
 <div class="table-responsive">
-<table class="table">
+<table class="table" id="table">
 	<thead class="">
 		<tr>
 			<th>#</th>
@@ -68,5 +67,75 @@
 </div>
 
 </div>
-{{$salida->links()}}
+<div class="pag">
+{{$salida->links()}}	
+</div>
+
 @include('componentes.footer')
+<script>
+var table = $('#table Tbody').html();
+var pag = $('nav:has(ul.pagination)');
+var search = "";
+var currentHtml = "";
+$(document).on("input", "input[name=search]", () => {
+    let value = $("input[name=search]").val();
+    if (value !== "") {
+        $.ajax({
+            url: "{{url('searchSal')}}",
+            type: "get",
+            cache: false,
+            data: {
+                value: value
+            },
+            success: function(data) {
+                console.log(data);
+                console.log(data.links);
+
+                if ($('nav:has(ul.pagination)').length) {
+                    $('nav:has(ul.pagination)').replaceWith(data.links);
+                } else {
+                    $(".pag").append(data.links);
+                }
+
+
+                let datos = JSON.parse(data.data);
+                search = data.search;
+                datos = datos.data;
+
+                datos.forEach(datos => {
+                    currentHtml +=
+                        `
+<tr p-id='${datos.id}'>
+    <td >${datos.id}</td>
+    <td >${datos.forma_salida}</td>
+	<td >${datos.cliente}</td>
+	<td >${datos.fecha}</td>
+	<td >${datos.cantidad}</td>
+	<td >C$${datos.total}</td>
+</tr>
+`;
+                });
+                $('#table Tbody').html(currentHtml);
+                currentHtml = "";
+                if (search != "") {
+                    let pages = $(".pagination li a");
+                    for (let i = 0; i < pages.length; i++) {
+                        pages[i].href = pages[i].href + "&" + "search=" + search;
+                    }
+
+                }
+
+            }
+        });
+    } else {
+
+        $('#table Tbody').html(table);
+        if ($('nav:has(ul.pagination)').length) {
+            $('nav:has(ul.pagination)').replaceWith(pag);
+        } else {
+            $(".pag").append(pag);
+        }
+    }
+
+});
+</script>

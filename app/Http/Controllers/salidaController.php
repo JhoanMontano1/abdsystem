@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\DB;
 use App\Models\salidaModel;
 use App\Models\clienteModel;
@@ -93,6 +94,8 @@ class salidaController extends Controller
     }
 
     public function search(){
+        if(isset($_GET["search"]))
+        {
         $value=$_GET['search'];
         $search=$value;
         $salida = DB::table('salida')
@@ -106,5 +109,30 @@ class salidaController extends Controller
         ->orWhere('forma_salida.tipo','like','%'. $value.'%')
         ->paginate(5);
             return view('salida.search',compact('salida','search'));
+
+        }
+        else if(isset($_GET["value"]))
+        {
+            $value= $_GET["value"];
+            $search=$value;
+            $salida = DB::table('salida')
+            ->join('forma_salida', 'salida.id_forma_salida', '=', 'forma_salida.id')
+            ->join('cliente', 'salida.id_cliente', '=', 'cliente.id')
+            ->select('salida.*', 'cliente.nombres as cliente','forma_salida.tipo as forma_salida')
+            ->where('salida.cantidad','like','%'. $value.'%')
+            ->orWhere('salida.id','like','%'. $value.'%')
+            ->orWhere('salida.total','like','%'. $value.'%')
+            ->orWhere('cliente.nombres','like','%'. $value.'%')
+            ->orWhere('forma_salida.tipo','like','%'. $value.'%')
+            ->paginate(5);
+            $data=json_encode($salida);
+            $res = array(
+             'data' => $data,
+             'links' => $salida->links()->render(),
+             'search'=>$value
+            );
+            return Response::json($res);
+        }
+
     }
 }

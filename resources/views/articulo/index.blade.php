@@ -29,7 +29,6 @@
         <div class="input-group">
             <input type="search" class="form-control rounded" name="search" required placeholder="Buscar"
                 aria-label="Search" aria-describedby="search-addon" />
-            <button type="submit" class="btn btn-outline-primary">Buscar</button>
         </div>
     </form>
 

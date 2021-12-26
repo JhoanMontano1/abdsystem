@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\DB;
 use App\Models\forma_pagoModel;
 class forma_pagoController extends Controller
@@ -109,11 +110,30 @@ class forma_pagoController extends Controller
 
     }
     public function search(){
+        if(isset($_GET["search"])){
         $value=$_GET['search'];
         $search=$value;
         $forma_pago=forma_pagoModel::where('tipo','like','%'.$value.'%')
         ->orWhere('id','like','%'.$value.'%')
         ->paginate(5);
         return view('forma_pago.search',compact('forma_pago','search'));
+
+        }
+        else if(isset($_GET["value"]))
+        {
+            $value= $_GET["value"];
+            $search=$value;
+            $forma_pago=forma_pagoModel::where('tipo','like','%'.$value.'%')
+            ->orWhere('id','like','%'.$value.'%')
+            ->paginate(5);
+            $data=json_encode($forma_pago);
+            $res = array(
+             'data' => $data,
+             'links' => $forma_pago->links()->render(),
+             'search'=>$value
+            );
+            return Response::json($res);
+        }
+
     }
 }

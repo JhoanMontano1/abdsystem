@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\DB;
 use App\Models\factura_proveedorModel;
 use App\Models\proveedorModel;
@@ -164,19 +165,66 @@ return redirect()->route('factura_proveedor.index');
 
         $factura=array();
         if(isset($_GET['date_i']) && isset($_GET['date_f'])){
+if(isset($_GET['type']))
+{
+    $date_i= $_GET['date_i'];
+    $date_f=$_GET['date_f'];
+    $factura = DB::table('factura_proveedor')
+    ->join('proveedor', 'factura_proveedor.id_proveedor', '=', 'proveedor.id')
+    ->join('forma_pago', 'factura_proveedor.id_forma_pago', '=', 'forma_pago.id')
+    ->select('factura_proveedor.*', 'proveedor.nombres as proveedor','forma_pago.tipo as forma_pago')
+   ->WhereBetween('factura_proveedor._fecha', [$date_i, $date_f])
+    ->paginate(5);
+    $data=json_encode($factura);
+    $res = array(
+     'data' => $data,
+     'links' => $factura->links()->render(),
+     'date_i'=>$date_i,
+     'date_f'=>$date_f
+    );
+    return Response::json($res);
+}
 
-            $date_i= $_GET['date_i'];
-            $date_f=$_GET['date_f'];
-            $factura = DB::table('factura_proveedor')
-            ->join('proveedor', 'factura_proveedor.id_proveedor', '=', 'proveedor.id')
-            ->join('forma_pago', 'factura_proveedor.id_forma_pago', '=', 'forma_pago.id')
-            ->select('factura_proveedor.*', 'proveedor.nombres as proveedor','forma_pago.tipo as forma_pago')
-           ->WhereBetween('factura_proveedor._fecha', [$date_i, $date_f])
-            ->paginate(5);
-            return view('factura_proveedor.search',compact('factura','date_i','date_f'));
+else{
+    $date_i= $_GET['date_i'];
+    $date_f=$_GET['date_f'];
+    $factura = DB::table('factura_proveedor')
+    ->join('proveedor', 'factura_proveedor.id_proveedor', '=', 'proveedor.id')
+    ->join('forma_pago', 'factura_proveedor.id_forma_pago', '=', 'forma_pago.id')
+    ->select('factura_proveedor.*', 'proveedor.nombres as proveedor','forma_pago.tipo as forma_pago')
+   ->WhereBetween('factura_proveedor._fecha', [$date_i, $date_f])
+    ->paginate(5);
+
+    return view('factura_proveedor.search',compact('factura','date_i','date_f'));
+
+}
+
         }
         elseif(isset($_GET['search'])){
-
+            if(isset($_GET['type']))
+            {
+                $value= $_GET['search'];
+                $search=$value;
+                $factura = DB::table('factura_proveedor')
+                ->join('proveedor', 'factura_proveedor.id_proveedor', '=', 'proveedor.id')
+                ->join('forma_pago', 'factura_proveedor.id_forma_pago', '=', 'forma_pago.id')
+                ->select('factura_proveedor.*', 'proveedor.nombres as proveedor','forma_pago.tipo as forma_pago')
+               // ->WhereBetween('factura_cliente.fecha', [$date_i, $date_f])
+               ->where('forma_pago.tipo','like','%'.$value.'%')
+               ->orWhere('factura_proveedor.id','like','%'.$value.'%')
+               ->orWhere('proveedor.nombres','like','%'. $value.'%')
+               // ->orWhere('factura_proveedor._fecha','like','%'.$value.'%')
+                ->paginate(5); 
+                $data=json_encode($factura);
+                $res = array(
+                 'data' => $data,
+                 'links' => $factura->links()->render(),
+                 'search'=>$search
+                );
+                return Response::json($res);
+            }
+            else
+            {
             $value= $_GET['search'];
             $search=$value;
             $factura = DB::table('factura_proveedor')
@@ -189,7 +237,9 @@ return redirect()->route('factura_proveedor.index');
            ->orWhere('proveedor.nombres','like','%'. $value.'%')
            // ->orWhere('factura_proveedor._fecha','like','%'.$value.'%')
             ->paginate(5);
-            return view('factura_proveedor.search',compact('factura','search'));
+            return view('factura_proveedor.search',compact('factura','search'));                
+            }
+
         }
      }
 }

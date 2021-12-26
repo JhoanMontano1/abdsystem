@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\DB;
 use App\Models\categoriaModel;
 class categoriaController extends Controller
@@ -118,9 +119,28 @@ $search=$value;
        return view('categoria.search',compact('categoria','search'));
 
         }
+        else if(isset($_GET["value"]))
+        {
+            $value= $_GET["value"];
+            $search=$value;
+            $categoria = DB::table('categoria')
+            ->select('categoria.*')
+            ->where('categoria.nombre','like','%'. $value.'%')
+            ->orWhere('categoria.id','like','%'. $value.'%')
+            ->paginate(5);
+            $data=json_encode($categoria);
+            $res = array(
+             'data' => $data,
+             'links' => $categoria->links()->render(),
+             'search'=>$value
+            );
+            return Response::json($res);
+        }
+
     else{ $search=DB::select("select nombre from categoria");
     return json_encode($search);
     }
 
     }
 }
+  
