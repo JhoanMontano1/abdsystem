@@ -1,6 +1,6 @@
 @include('componentes.header')
 <h1 style="text-align: center;">Facturas de salida</h1>
-<div class="d-flex justify-content-center w-100 flex-wrap">
+<div class="d-flex justify-content-center w-100 flex-wrap" id="ventas">
     <div class="item text-center w-100 alert alert-primary"><h3>Más vendido del mes: <br><?=$product[0]->{'articulo'}?><br>Total: <?=$product[0]->{'cantidad_vendida'}?></h3></div>
     
     <div class="item text-center w-100 alert alert-secondary"><h3>Menos vendido del mes: <br><?=$product2[0]->{'articulo'}?><br>Total: <?=$product2[0]->{'cantidad_vendida'}?></h3> </div>
@@ -18,6 +18,7 @@
         <input type="hidden" name="context" value="factura_cliente">
         <input type="submit" value="     Reporte" class="btn-primary" id="reporte">
     </form>
+    <button class="btn btn-primary" onclick="btnVentaClick()">+-<i class="fas fa-shopping-cart"></i></button>
     @endif
 
 
@@ -110,6 +111,8 @@
 
 @include('componentes.footer')
 <script>
+    let ventas=$("#ventas").html();
+    $("#ventas").html("");
 $('#form-anular').submit(() => {
     $('#btn-anular').prop('disabled', true);
 });
@@ -316,4 +319,14 @@ $(document).on("input", "input[name=search]", () => {
     }
 
 });
+
+function btnVentaClick(){
+    if($("#ventas").html().length>0){
+        $("#ventas").html("");
+    }
+    else
+    {
+        $("#ventas").html(ventas);
+    }
+}
 </script>
