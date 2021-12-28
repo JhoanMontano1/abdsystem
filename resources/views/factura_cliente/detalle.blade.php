@@ -157,7 +157,7 @@ PROPIETARIO
         </tr>
     </tbody>
 </table>
-
+<br>
 <hr style="width:120px;">
 <div>Entregue conforme</div>
 <br>
