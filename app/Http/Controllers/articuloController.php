@@ -173,4 +173,5 @@ return redirect('articulo')->with('mensaje',' El artículo se ha eliminado exito
        );
        return Response::json($res);
     }
+
 }

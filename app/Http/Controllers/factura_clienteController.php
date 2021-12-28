@@ -17,12 +17,24 @@ class factura_clienteController extends Controller
 {
     //
     public function index(){
+        $product=DB::select("select articulo.id,descripcion as articulo, sum(detalle_factura_cliente.cantidad) as cantidad_vendida from articulo inner join detalle_factura_cliente on articulo.id=detalle_factura_cliente.id_articulo inner join factura_cliente on factura_cliente.id=detalle_factura_cliente.id_factura where factura_cliente.anulado=0 and month(factura_cliente._fecha)=month(curdate()) group by articulo.id order by cantidad_vendida desc limit 1;");
+
+        $product2=DB::select("select articulo.id,descripcion as articulo, sum(detalle_factura_cliente.cantidad) as cantidad_vendida from articulo inner join detalle_factura_cliente on articulo.id=detalle_factura_cliente.id_articulo inner join factura_cliente on factura_cliente.id=detalle_factura_cliente.id_factura where factura_cliente.anulado=0 and month(factura_cliente._fecha)=month(curdate()) group by articulo.id order by cantidad_vendida limit 1;");
+        // $product=DB::table('articulo')
+        // ->join('detalle_factura_cliente', 'articulo.id', '=', 'detalle_factura_cliente.id_articulo')
+        // ->join('factura_cliente','factura_cliente_detalle.id_factura','=','factura_cliente.id')
+        // ->select('articulo.id','articulo.descripcion as articulo','sum(detalle_factura_cliente.cantidad) as cantidad_vendida')
+        // ->where('factura_cliente.anulado','=',0)
+        // ->groupBy('articulo.id')
+        // ->limit(1)
+        // ->get();
+
         $factura = DB::table('factura_cliente')
         ->join('forma_pago', 'factura_cliente.id_forma_pago', '=', 'forma_pago.id')
         ->join('cliente', 'factura_cliente.id_cliente', '=', 'cliente.id')
         ->select('factura_cliente.*', 'cliente.nombres as cliente','forma_pago.tipo as forma_pago')
         ->paginate(5);
-       return view('factura_cliente.index',compact('factura'));
+       return view('factura_cliente.index',compact('factura','product','product2'));
     }
 
     public function create()
