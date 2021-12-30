@@ -70,10 +70,14 @@ foreach($array as $value){
         <table class="table">
             <thead class="">
                 <tr>
-
+                    <?php $n=0; ?>
                     @foreach ($array2 as $value)
 
-                    <th>{{$value}}</th>
+                    <th @if ($value=="Total" ) numero={{$n}} id=Total @elseif ($value=="Cantidad" ) numero={{$n}}
+                        id=Cantidad @elseif ($value=="Iva" ) numero={{$n}} id=Iva @endif>
+                        {{$value}}
+                    </th>
+                    <?php $n+=1; ?>
                     @endforeach
 
                 </tr>
@@ -100,3 +104,20 @@ foreach($array as $value){
 </body>
 
 </html>
+<script src="{{asset('js/jquery.js')}}"></script>
+<script>
+var cantidad_position = $("#Cantidad").attr("numero");
+var total_position = $("#Total").attr("numero");
+var iva_position = $("#Iva").attr("numero");
+var table = $("#table tbody tr");
+
+
+$("tbody tr").each(function(index, element) {
+    var rows=$(element).children();
+
+   let temp_total= $(rows[total_position]).html();
+   let temp_iva=$(rows[iva_position]).html();
+   $(rows[total_position]).html("C$"+$.trim(temp_total));
+   $(rows[iva_position]).html(parseFloat(temp_iva*100)+"%");
+ });
+</script>

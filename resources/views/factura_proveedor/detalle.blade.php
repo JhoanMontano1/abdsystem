@@ -78,10 +78,10 @@ PROPIETARIO
     Ruc: 001053890000P
 </div>
 <div>
-    Dir.:Managua Km 8 carretera Norte DDF La rocargo 10 cuadras al norte y 1 1/2 cuadra al oeste.Barrio Camilo Chamorro.
+    Dir.: Managua Km 8 carretera Norte DDF<br>La rocargo 10 cuadras al norte y 1 1/2<br>cuadra al oeste. Barrio Camilo Chamorro.
 </div>
 <div>
-    Cel.:88465479
+    Cel.: 88465479
 </div>
 <table id="factura">
     <thead>
@@ -118,7 +118,7 @@ PROPIETARIO
     <thead>
             <tr>
                 <th>Cantidad</th>
-                <th>Descripcion</th>
+                <th>Descripción</th>
                 <th>Precio Unitario</th>
                 <th>Precio Total</th>
             </tr>
@@ -165,7 +165,7 @@ PROPIETARIO
 <br>
 <div>DAVID PICADO</div>
 <div style="font-size:12px;">
-    <strong>NOTA:</strong> Garantia de 1 mes para celulares y accesorios dependiendo del producto. <br>
+    <strong>NOTA:</strong> Garantía de 1 mes para celulares y accesorios dependiendo del producto. <br>
     Y no se responde por golpe ni por mojarlo.
 </div>
 </div>

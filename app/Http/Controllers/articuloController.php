@@ -27,8 +27,8 @@ class articuloController extends Controller
     {
         $articulo=DB::select('select* from articulo');
         //$articulo=$datos['articulo']=articuloModel::paginate(10);
-        $categoria=$datos2['categoria']=categoriaModel::paginate(10);
-        $proveedor=$datos3['proveedor']=proveedorModel::paginate(10);
+        $categoria=$datos2['categoria']=categoriaModel::get();
+        $proveedor=$datos3['proveedor']=proveedorModel::get();
         return view('articulo.create',$articulo,compact('categoria','proveedor'));
     }
 
@@ -73,8 +73,8 @@ class articuloController extends Controller
         else{
             $articulo=articuloModel::findOrFail($id);
             $articulo2=$datos['articulo']=articuloModel::paginate(10);
-            $categoria=$datos2['categoria']=categoriaModel::paginate(10);
-            $proveedor=$datos3['proveedor']=proveedorModel::paginate(10);
+            $categoria=$datos2['categoria']=categoriaModel::get();
+            $proveedor=$datos3['proveedor']=proveedorModel::get();
             return view('articulo.edit',compact('articulo','categoria','proveedor'));
         }
 

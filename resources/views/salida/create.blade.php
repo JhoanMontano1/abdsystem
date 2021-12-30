@@ -284,7 +284,7 @@
 <td>${id}</td>
 <td>${cantidad}</td>
 <td>${nombre}</td>
-<td>${precio}C$</td>
+<td>${precio}</td>
 <td>C$${parseFloat(cantidad)*parseFloat(precio.substring(2,precio.length))}</td>
 <td> <button class='btn btn-sm btn-danger delete'>Eliminar</button></td>
 </tr>`;
