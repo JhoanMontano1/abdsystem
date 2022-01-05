@@ -10,13 +10,13 @@ class proveedorController extends Controller
 {
     //
     public function index(){
-        $proveedor=$datos['proveedor']=proveedorModel::paginate(10);
+        $proveedor=$datos['proveedor']=proveedorModel::paginate(5);
        return view('proveedor.index',compact('proveedor'));
     }
 
     public function create()
     {
-        $proveedor=$datos['proveedor']=proveedorModel::paginate(10);
+        $proveedor=$datos['proveedor']=proveedorModel::paginate(5);
 
         return view('proveedor.create',compact('proveedor'));
     }
@@ -58,7 +58,7 @@ class proveedorController extends Controller
         else{
 
             $proveedor=proveedorModel::findOrFail($id);
-            $proveedor2=$datos['proveedor']=proveedorModel::paginate(20);
+            $proveedor2=$datos['proveedor']=proveedorModel::paginate(5);
             return view('proveedor.edit' , compact('proveedor'));   
         }
         
