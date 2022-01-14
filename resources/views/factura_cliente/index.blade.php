@@ -1,5 +1,7 @@
 @include('componentes.header')
 <h1 style="text-align: center;">Facturas de salida</h1>
+@if (count($product) > 0 && count($product2) > 0)
+
 <div class="d-flex justify-content-center w-100 flex-wrap" id="ventas">
     <div class="item text-center w-100 alert alert-primary">
         <h3>Productos más vendidos del mes: <br><?=$product[0]->{'articulo'}?><br>Total: <?=$product[0]->{'cantidad_vendida'}?>
@@ -11,6 +13,7 @@
         </h3>
     </div>
 </div>
+@endif
 <div class="container">
     @if(Session::has('mensaje'))
     <div class="alert alert-success alert_dismissible" role="alert">
