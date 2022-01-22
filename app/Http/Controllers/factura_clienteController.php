@@ -164,13 +164,13 @@ class factura_clienteController extends Controller
         
         $fact=DB::select('select* from factura_cliente where id='.$_GET['id']);
         $detalle=DB::select('select* from detalle_factura_cliente where id_factura='.$_GET['id']);
-        $cliente=DB::select('select nombres from cliente where id='.$fact[0]->{'id_cliente'});
+        $cliente=DB::select('select nombres,apellidos from cliente where id='.$fact[0]->{'id_cliente'});
         $hora=DB::select('SELECT DATE(factura_cliente.fecha) As fecha,HOUR(factura_cliente.fecha) As hora,MINUTE(factura_cliente.fecha) AS minuto FROM factura_cliente where id='.$_GET['id']);
         // $hora=DB::select('SELECT Format(fecha ,"hh:mm") as hora from factura_proveedor where id='.$_GET['id']);
         $array=array(
             'id'=>$_GET['id'],
             'fecha'=>$hora[0]->{'fecha'},
-            'cliente'=>$cliente[0]->{'nombres'},
+            'cliente'=>$cliente[0]->{'nombres'}.' '.$cliente[0]->{'apellidos'},
             'hora'=>$hora[0]->{'hora'},
             'minuto'=>$hora[0]->{'minuto'},
             'iva'=>$fact[0]->{'iva'},
@@ -247,25 +247,6 @@ return redirect()->route('factura_cliente.index');
         //     ->paginate(5);
         //     return view('factura_cliente.search',compact('factura','search'));
         // } 
-
-       
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
         $factura=array();

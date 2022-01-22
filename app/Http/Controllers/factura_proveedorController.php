@@ -105,13 +105,15 @@ echo $id_factura;
         
         $fact=DB::select('select* from factura_proveedor where id='.$_GET['id']);
         $detalle=DB::select('select* from detalle_factura_proveedor where id_factura='.$_GET['id']);
-        $proveedor=DB::select('select nombres from proveedor where id='.$fact[0]->{'id_proveedor'});
+        $proveedor=DB::select('select nombres,apellidos,nombre_comercial from proveedor where id='.$fact[0]->{'id_proveedor'});
+        $comercial=
         $hora=DB::select('SELECT DATE(factura_proveedor.fecha) As fecha,HOUR(factura_proveedor.fecha) As hora,MINUTE(factura_proveedor.fecha) AS minuto FROM factura_proveedor where id='.$_GET['id']);
         // $hora=DB::select('SELECT Format(fecha ,"hh:mm") as hora from factura_proveedor where id='.$_GET['id']);
         $array=array(
             'id'=>$_GET['id'],
             'fecha'=>$hora[0]->{'fecha'},
-            'proveedor'=>$proveedor[0]->{'nombres'},
+            'proveedor'=>$proveedor[0]->{'nombres'}.' '.$proveedor[0]->{'apellidos'},
+            'comercial'=>$proveedor[0]->{'nombre_comercial'},
             'hora'=>$hora[0]->{'hora'},
             'minuto'=>$hora[0]->{'minuto'},
             'iva'=>$fact[0]->{'iva'},

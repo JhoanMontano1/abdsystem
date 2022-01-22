@@ -100,6 +100,9 @@ PROPIETARIO
         <tr>
         <td>Proveedor: {{$array['proveedor']}}</td>
         </tr>
+        <tr>
+        <td>Nombre comercial: {{$array['comercial']}}</td>
+        </tr>
     </tbody>
 </table>
 

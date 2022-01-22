@@ -124,12 +124,14 @@
     </table>
 
 </div>
+
 <div class="pag">
     {{$factura->links()}}
 </div>
+@include('componentes.footer')
 </div>
 
-@include('componentes.footer')
+
 <script>
 let ventas = $("#ventas").html();
 $("#ventas").html("");
